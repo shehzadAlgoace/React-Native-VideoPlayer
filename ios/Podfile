@@ -4,10 +4,17 @@ require Pod::Executable.execute_command('node', ['-p',
     "react-native/scripts/react_native_pods.rb",
     {paths: [process.argv[1]]},
   )', __dir__]).strip
+  $RNVideoUseGoogleIMA=true
+# enable Video caching
+$RNVideoUseVideoCaching=true
+    pod 'SPTPersistentCache', :modular_headers => true
+    pod 'DVAssetLoaderDelegate', :modular_headers => true
+
 
 platform :ios, min_ios_version_supported
 prepare_react_native_project!
-
+  
+  
 linkage = ENV['USE_FRAMEWORKS']
 if linkage != nil
   Pod::UI.puts "Configuring Pod with #{linkage}ally linked Frameworks".green
@@ -37,4 +44,5 @@ target 'videoPlayer' do
       # :ccache_enabled => true
     )
   end
+  
 end
