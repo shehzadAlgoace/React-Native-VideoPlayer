@@ -1,17 +1,10 @@
 import React, {useRef, useState} from 'react';
-import {
-  View,
-  Text,
-  Image,
-  StyleSheet,
-  Pressable,
-  TouchableWithoutFeedback,
-} from 'react-native';
+import {View, Text, Image, StyleSheet, Pressable} from 'react-native';
 import Video from 'react-native-video';
 import Slider from '@react-native-community/slider';
 import Orientation from 'react-native-orientation-locker';
 
-const App = () => {
+const VideoPlayer = () => {
   const [clicked, setClicked] = useState(false);
   const [paused, setPaused] = useState(true);
   const [videoStarted, setVideoStarted] = useState(false); // Track if the video has started
@@ -21,7 +14,6 @@ const App = () => {
   });
   const [fullScreen, setFullScreen] = useState(false);
   const videoRef = useRef();
-  const tapTimeoutRef = useRef(null);
 
   const format = seconds => {
     let mins = parseInt(seconds / 60)
@@ -67,39 +59,23 @@ const App = () => {
   };
   const handleClick = () => {
     if (videoStarted) {
-      handleTap(); // Use handleTap instead of directly setting clicked
+      setClicked(!clicked);
     }
   };
   // // Function to handle double-tap for seek forward and backward
+  const handleDoubleTap = callback => {
+    let lastTap = null;
+    const delay = 300; // Delay in milliseconds for double-tap detection
 
-  const handleTap = direction => {
-    if (tapTimeoutRef.current) {
-      clearTimeout(tapTimeoutRef.current);
-      tapTimeoutRef.current = null;
-      handleDoubleTap(direction);
-    } else {
-      tapTimeoutRef.current = setTimeout(() => {
-        handleSingleTap();
-        tapTimeoutRef.current = null;
-      }, 300); // Adjust timeout value as needed
-    }
+    return () => {
+      const now = Date.now();
+
+      if (lastTap && now - lastTap < delay) {
+        callback();
+      }
+      lastTap = now;
+    };
   };
-
-  const handleDoubleTap = direction => {
-    if (direction === 'left') {
-      videoRef.current?.seek(Math.max(0, progress.currentTime - 10));
-    } else if (direction === 'right') {
-      videoRef.current?.seek(
-        Math.min(progress.seekableDuration, progress.currentTime + 10),
-      );
-    }
-  };
-
-  const handleSingleTap = () => {
-    // Handle single tap logic here (e.g., toggle play/pause)
-    setClicked(!clicked);
-  };
-
   return (
     <View style={{flex: 1}}>
       <Pressable
@@ -117,7 +93,6 @@ const App = () => {
           style={{width: '100%', height: fullScreen ? '100%' : 220}}
           resizeMode="contain"
         />
-
         {!videoStarted && (
           <Image
             source={{
@@ -149,26 +124,30 @@ const App = () => {
                 alignItems: 'center',
                 justifyContent: 'center',
               }}>
-              {/* <Pressable
+              <Pressable
                 style={{width: '35%', height: '100%', backgroundColor: 'coral'}}
-                onPress={() =>
-                  videoRef.current?.seek(parseInt(progress.currentTime) - 10)
-                }>
-                <Image
+                // onPress={() =>
+                //   videoRef.current?.seek(parseInt(progress.currentTime) - 10)
+                // }
+                // onPress={() => {
+                //   handleDoubleTap(() =>
+                //     videoRef.current?.seek(parseInt(progress.currentTime) - 10),
+                //   );
+                //   setClicked(!clicked);
+                // }}
+                onPress={() => {
+                  handleDoubleTap(() =>
+                    videoRef.current?.seek(parseInt(progress.currentTime) - 10),
+                  );
+                  if (!handleDoubleTap) {
+                    setClicked(!clicked);
+                  }
+                }}>
+                {/* <Image
                   source={require('./src/backward.png')}
                   style={styles.controlIcon}
-                />
-              </Pressable> */}
-              <TouchableWithoutFeedback onPress={() => handleTap('left')}>
-                <View
-                  style={{
-                    width: '35%',
-                    height: '100%',
-                    backgroundColor: 'coral',
-                  }}>
-                  {/* <Image source={require('./src/backward.png')} style={styles.controlIcon} /> */}
-                </View>
-              </TouchableWithoutFeedback>
+                /> */}
+              </Pressable>
               <Pressable
                 style={{width: '30%', height: 30, backgroundColor: 'yellow'}}
                 onPress={handlePlayPause}>
@@ -181,29 +160,25 @@ const App = () => {
                   style={[styles.controlIcon, {marginLeft: 50}]}
                 />
               </Pressable>
-              {/* <Pressable
+              <Pressable
                 style={{width: '35%', height: '100%', backgroundColor: 'green'}}
-                onPress={() =>
-                  videoRef.current?.seek(parseInt(progress.currentTime) + 10)
-                }>
+                // onPress={() =>
+                //   videoRef.current?.seek(parseInt(progress.currentTime) + 10)
+                // }
+                // onPress={() => {
+                //   handleDoubleTap(() =>
+                //     videoRef.current?.seek(parseInt(progress.currentTime) + 10),
+                //   );
+                //   setClicked(!clicked);
+                // }}
+                onPress={handleDoubleTap(() =>
+                  videoRef.current?.seek(parseInt(progress.currentTime) + 10),
+                )}>
                 <Image
                   source={require('./src/forward.png')}
                   style={[styles.controlIcon, {marginLeft: 50}]}
                 />
-              </Pressable> */}
-              <TouchableWithoutFeedback onPress={() => handleTap('right')}>
-                <View
-                  style={{
-                    width: '35%',
-                    height: '100%',
-                    backgroundColor: 'green',
-                  }}>
-                  <Image
-                    source={require('./src/forward.png')}
-                    style={[styles.controlIcon, {marginLeft: 50}]}
-                  />
-                </View>
-              </TouchableWithoutFeedback>
+              </Pressable>
             </View>
             <View style={styles.bottomControls}>
               <Text style={{color: 'white'}}>
@@ -295,4 +270,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default App;
+export default VideoPlayer;
