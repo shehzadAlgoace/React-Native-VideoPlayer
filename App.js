@@ -1,3 +1,4 @@
+/* eslint-disable react-native/no-inline-styles */
 import React, {useRef, useState} from 'react';
 import {
   View,
@@ -96,7 +97,6 @@ const App = () => {
   };
 
   const handleSingleTap = () => {
-    // Handle single tap logic here (e.g., toggle play/pause)
     setClicked(!clicked);
   };
 
@@ -143,34 +143,25 @@ const App = () => {
             <View
               style={{
                 flexDirection: 'row',
-
                 width: '100%',
                 height: '100%',
                 alignItems: 'center',
                 justifyContent: 'center',
               }}>
-              {/* <Pressable
-                style={{width: '35%', height: '100%', backgroundColor: 'coral'}}
-                onPress={() =>
-                  videoRef.current?.seek(parseInt(progress.currentTime) - 10)
-                }>
-                <Image
-                  source={require('./src/backward.png')}
-                  style={styles.controlIcon}
-                />
-              </Pressable> */}
-              <TouchableWithoutFeedback onPress={() => handleTap('left')}>
-                <View
-                  style={{
-                    width: '35%',
-                    height: '100%',
-                    backgroundColor: 'coral',
-                  }}>
-                  {/* <Image source={require('./src/backward.png')} style={styles.controlIcon} /> */}
-                </View>
-              </TouchableWithoutFeedback>
               <Pressable
-                style={{width: '30%', height: 30, backgroundColor: 'yellow'}}
+                style={{
+                  width: '35%',
+                  height: '100%',
+                }}
+                onPress={() => handleTap('left')}
+              />
+              <Pressable
+                style={{
+                  width: '30%',
+                  height: 30,
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                }}
                 onPress={handlePlayPause}>
                 <Image
                   source={
@@ -178,32 +169,16 @@ const App = () => {
                       ? require('./src/play-button.png')
                       : require('./src/pause.png')
                   }
-                  style={[styles.controlIcon, {marginLeft: 50}]}
+                  style={[styles.controlIcon]}
                 />
               </Pressable>
-              {/* <Pressable
-                style={{width: '35%', height: '100%', backgroundColor: 'green'}}
-                onPress={() =>
-                  videoRef.current?.seek(parseInt(progress.currentTime) + 10)
-                }>
-                <Image
-                  source={require('./src/forward.png')}
-                  style={[styles.controlIcon, {marginLeft: 50}]}
-                />
-              </Pressable> */}
-              <TouchableWithoutFeedback onPress={() => handleTap('right')}>
-                <View
-                  style={{
-                    width: '35%',
-                    height: '100%',
-                    backgroundColor: 'green',
-                  }}>
-                  <Image
-                    source={require('./src/forward.png')}
-                    style={[styles.controlIcon, {marginLeft: 50}]}
-                  />
-                </View>
-              </TouchableWithoutFeedback>
+              <Pressable
+                style={{
+                  width: '35%',
+                  height: '100%',
+                }}
+                onPress={() => handleTap('right')}
+              />
             </View>
             <View style={styles.bottomControls}>
               <Text style={{color: 'white'}}>
@@ -253,7 +228,7 @@ const styles = StyleSheet.create({
     height: '100%',
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: 'rgba(0,0,0,0.5)',
+    backgroundColor: 'rgba(0,0,0,0.2 )',
   },
   playButton: {
     width: 30,
@@ -264,14 +239,14 @@ const styles = StyleSheet.create({
     width: '100%',
     height: '100%',
     position: 'absolute',
-    backgroundColor: 'rgba(0,0,0,.5)',
+    backgroundColor: 'rgba(0,0,0,.3)',
     justifyContent: 'center',
     alignItems: 'center',
   },
   controlIcon: {
     width: 30,
     height: 30,
-    backgroundColor: 'coral',
+    tintColor: 'white',
   },
   bottomControls: {
     width: '100%',
