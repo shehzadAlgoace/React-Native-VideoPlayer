@@ -1,9 +1,6 @@
-import {StyleSheet, Text, View} from 'react-native';
+import {StyleSheet, View} from 'react-native';
 import React from 'react';
 import VideoPlayer from './src/components/videoPlayer/videoPlayer';
-
-// import VideoPlayer from './src/components/videoPlayer/videoPlayer';
-
 const App = () => {
   return (
     <View style={styles.container}>

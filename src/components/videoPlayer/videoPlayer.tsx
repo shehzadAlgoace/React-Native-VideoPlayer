@@ -12,6 +12,7 @@ import {
 import Video from 'react-native-video';
 import Slider from '@react-native-community/slider';
 import Orientation from 'react-native-orientation-locker';
+import {Icons} from '../../icons';
 interface VideoPlayerProps {
   videoUri: String;
   videoPoster: String;
@@ -177,10 +178,7 @@ const VideoPlayer = ({videoUri, videoPoster}: VideoPlayerProps) => {
                     handleLock();
                   }
                 }}>
-                <Image
-                  source={require('./Images/lockIcon.jpeg')}
-                  style={styles.lockIcon}
-                />
+                <Icons.lockIcon />
                 <Text style={styles.lockIconTextStyle}>Lock</Text>
               </TouchableOpacity>
             )}
@@ -213,10 +211,7 @@ const VideoPlayer = ({videoUri, videoPoster}: VideoPlayerProps) => {
         {!videoStarted && (
           <View style={styles.playButtonOverlay}>
             <Pressable onPress={handlePlayPause}>
-              <Image
-                source={require('./Images/play-button.png')}
-                style={styles.playButton}
-              />
+              <Icons.playIcon />
             </Pressable>
           </View>
         )}
@@ -247,14 +242,7 @@ const VideoPlayer = ({videoUri, videoPoster}: VideoPlayerProps) => {
                   padding: 10,
                 }}
                 onPress={handlePlayPause}>
-                <Image
-                  source={
-                    paused
-                      ? require('./Images/play-button.png')
-                      : require('./Images/pause.png')
-                  }
-                  style={[styles.controlIcon]}
-                />
+                {paused ? <Icons.playIcon /> : <Icons.pause />}
               </Pressable>
             )}
             <Pressable
@@ -286,24 +274,14 @@ const VideoPlayer = ({videoUri, videoPoster}: VideoPlayerProps) => {
           {clicked && (
             <View style={styles.settingIcon}>
               <Pressable onPress={handleSetting}>
-                <Image
-                  source={require('./Images/images.png')}
-                  style={{width: 24, height: 24}}
-                />
+                <Icons.setting />
               </Pressable>
             </View>
           )}
           {clicked && (
             <View style={styles.topControls}>
               <Pressable onPress={handleFullscreen}>
-                <Image
-                  source={
-                    fullScreen
-                      ? require('./Images/minimize.png')
-                      : require('./Images/full-size.png')
-                  }
-                  style={{width: 24, height: 24, tintColor: 'white'}}
-                />
+                {fullScreen ? <Icons.minimize /> : <Icons.fullScreenIcon />}
               </Pressable>
             </View>
           )}
@@ -331,11 +309,7 @@ const VideoPlayer = ({videoUri, videoPoster}: VideoPlayerProps) => {
                 setModalVisible(!modalVisible);
               }}
               style={styles.settingModalViewStyle}>
-              <Image
-                source={require('./Images/playSpeedIcon.png')}
-                style={styles.settingModalIconsStyle}
-              />
-              {/* <ICONS.playSpeedIcon /> */}
+              <Icons.speedIcon />
               <View
                 style={{
                   flex: 1,
@@ -355,10 +329,7 @@ const VideoPlayer = ({videoUri, videoPoster}: VideoPlayerProps) => {
                 }
               }}
               style={styles.settingModalViewStyle}>
-              <Image
-                source={require('./Images/lockIcon.jpeg')}
-                style={styles.settingModalIconsStyle}
-              />
+              <Icons.lockIcon />
               <View
                 style={{
                   flex: 1,
@@ -421,11 +392,11 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     backgroundColor: 'rgba(0,0,0,0.2 )',
   },
-  playButton: {
-    width: 30,
-    height: 30,
-    tintColor: 'white',
-  },
+  // playButton: {
+  //   width: 30,
+  //   height: 30,
+  //   tintColor: 'white',
+  // },
   overlay: {
     width: '100%',
     height: '100%',
@@ -488,10 +459,7 @@ const styles = StyleSheet.create({
     paddingVertical: 10,
     alignItems: 'center',
   },
-  settingModalIconsStyle: {
-    width: 24,
-    height: 24,
-  },
+
   textStyle: {
     color: 'black',
     fontWeight: 'bold',
@@ -499,14 +467,10 @@ const styles = StyleSheet.create({
   },
   speedTextStyle: {
     paddingVertical: 5,
-    // backgroundColor: 'coral',
     color: 'black',
     fontWeight: 'bold',
   },
-  lockIcon: {
-    width: 24,
-    height: 24,
-  },
+
   lockIconTextStyle: {
     color: 'black',
     fontWeight: 'bold',
@@ -516,7 +480,6 @@ const styles = StyleSheet.create({
     position: 'absolute',
     zIndex: 999,
     flex: 1,
-    // backgroundColor: 'coral',
     width: '100%',
     height: '100%',
     alignItems: 'center',
